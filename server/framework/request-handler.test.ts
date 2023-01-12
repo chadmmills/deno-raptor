@@ -1,4 +1,4 @@
-import { asserEquals, runner } from "./test.ts";
+import { assert, runner } from "./test.ts";
 
 import RequestHandler from "./request-handler.ts";
 
@@ -11,7 +11,7 @@ runner.test("Not find a module for the route", async () => {
 
   const response = await requestHandler.handle(new Request("http://localhost:3000"));
 
-  asserEquals(response.status, 404);
+  assert.equals(response.status, 404);
 });
 
 
@@ -27,5 +27,5 @@ runner.test("Find a module for the route and call the get method", async () => {
 
   const response = await requestHandler.handle(new Request("http://localhost:3000", { method: "POST" }));
 
-  asserEquals(response.status, 202);
+  assert.equals(response.status, 202);
 } );

@@ -3,6 +3,12 @@ export default function pathLookup(path: string, pathKeys: string[]): string | n
     const pathKeyParts = pathKey.split("/").filter(Boolean);
     const pathParts = path.split("/").filter(Boolean);
 
+    // console.log(pathKeyParts, pathParts);
+
+    if (pathKeyParts.length === 0 && pathParts.length === 0) {
+      return pathKey;
+    }
+
 
     if (pathKeyParts.length !== pathParts.length) {
       continue;

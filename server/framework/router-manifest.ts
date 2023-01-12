@@ -1,7 +1,7 @@
 import type { TManifest, TMethodHandler } from "./request-handler.ts";
 import pathLookup from "./path-lookup.ts";
 
-type TRouteMap = { [key: string]: TMethodHandler };
+export type TRouteMap = { [key: string]: TMethodHandler };
 
 export default class RouterManifest implements TManifest {
   routes: TRouteMap;
