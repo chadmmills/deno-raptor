@@ -10,7 +10,10 @@ export default class RouterManifest implements TManifest {
     this.routes = routeMap;
   }
 
-  find(url: string, lookup: (path: string, pathKeys: string[]) => string | null = pathLookup) {
+  find(
+    url: string,
+    lookup: (path: string, pathKeys: string[]) => string | null = pathLookup,
+  ) {
     const pathKey = lookup(new URL(url).pathname, Object.keys(this.routes));
 
     if (!pathKey) {
@@ -20,4 +23,3 @@ export default class RouterManifest implements TManifest {
     return this.routes[pathKey] || null;
   }
 }
-

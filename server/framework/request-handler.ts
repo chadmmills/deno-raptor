@@ -1,8 +1,27 @@
+const Responder = {
+  json: (data: unknown) => {
+    return new Response(
+      JSON.stringify(data),
+      {
+        status: 200,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
+    );
+  },
+};
+
+export type TResponder = typeof Responder;
+
 const httpMethods = ["get", "post", "patch", "delete"] as const;
 
 // type TResponse = typeof Response;
 type THandlerResponse = Promise<Response>;
-type THandler = (requestData: { query: URLSearchParams, params: null, data: null }) => THandlerResponse;
+export type THandler = (
+  requestData: { query: URLSearchParams; params: null; data: null },
+  response: typeof Responder,
+) => THandlerResponse;
 
 export type TMethodHandler = {
   [key in typeof httpMethods[number]]?: THandler;
@@ -44,9 +63,13 @@ export default class RequestHandler {
     }
 
     if (route) {
-      return await route({ query: new URLSearchParams(req.url), params: null, data: null });
+      return await route({
+        query: new URLSearchParams(req.url),
+        params: null,
+        data: null,
+      }, Responder);
     }
 
     return new Response("Not found", { status: 404 });
-  }
+  };
 }

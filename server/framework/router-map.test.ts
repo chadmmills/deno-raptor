@@ -7,7 +7,7 @@ runner.test("RouterMap", async () => {
 
   const routerMap = new RouterMap(".", walker);
 
-  const importer = async (path: string) => "imported test"
+  const importer = async (path: string) => "imported test";
 
   const result = await routerMap.load<string>(importer);
 

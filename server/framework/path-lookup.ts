@@ -1,4 +1,7 @@
-export default function pathLookup(path: string, pathKeys: string[]): string | null {
+export default function pathLookup(
+  path: string,
+  pathKeys: string[],
+): string | null {
   for (const pathKey of pathKeys) {
     const pathKeyParts = pathKey.split("/").filter(Boolean);
     const pathParts = path.split("/").filter(Boolean);
@@ -8,7 +11,6 @@ export default function pathLookup(path: string, pathKeys: string[]): string | n
     if (pathKeyParts.length === 0 && pathParts.length === 0) {
       return pathKey;
     }
-
 
     if (pathKeyParts.length !== pathParts.length) {
       continue;
@@ -26,7 +28,7 @@ export default function pathLookup(path: string, pathKeys: string[]): string | n
       if (pathKeyParts[i].startsWith(":")) {
         continue;
       }
-      
+
       if (pathKeyParts[i] !== pathParts[i]) {
         break;
       }
