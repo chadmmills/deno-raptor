@@ -16,8 +16,7 @@ export type TResponder = typeof Responder;
 
 const httpMethods = ["get", "post", "patch", "delete"] as const;
 
-// type TResponse = typeof Response;
-type THandlerResponse = Promise<Response>;
+type THandlerResponse = Promise<Response> | Response;
 export type THandler = (
   requestData: { query: URLSearchParams; params: null; data: null },
   response: typeof Responder,

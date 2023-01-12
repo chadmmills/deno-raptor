@@ -9,7 +9,7 @@ runner.test("RouterMap", async () => {
 
   const importer = async (path: string) => "imported test";
 
-  const result = await routerMap.load<string>(importer);
+  const result = await routerMap.load<string>("lol", importer);
 
-  assert.equals(result, { "/test.ts": "imported test" });
+  assert.equals(result, { "/test": "imported test" });
 });
