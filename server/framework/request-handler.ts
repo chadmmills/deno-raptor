@@ -1,3 +1,5 @@
+import getParams from "./get-params.ts";
+
 const Responder = {
   json: (data: unknown) => {
     return new Response(
@@ -17,17 +19,20 @@ export type TResponder = typeof Responder;
 const httpMethods = ["get", "post", "patch", "delete"] as const;
 
 type THandlerResponse = Promise<Response> | Response;
+
+type TParams = Record<string, string>;
+
 export type THandler = (
-  requestData: { query: URLSearchParams; params: null; data: null },
+  requestData: { query: URLSearchParams; params: TParams; data: null },
   response: typeof Responder,
 ) => THandlerResponse;
 
-export type TMethodHandler = {
+export type THandlerModule = {
   [key in typeof httpMethods[number]]?: THandler;
 };
 
 export type TManifest = {
-  find(url: string): null | TMethodHandler;
+  find(url: string): null | { path: string; handlers: THandlerModule };
 };
 
 export default class RequestHandler {
@@ -40,31 +45,19 @@ export default class RequestHandler {
   handle = async (req: Request) => {
     const httpMethod = req.method.toLowerCase();
 
-    let route;
-    const routerHandler = this.manifest.find(req.url);
+    const route = this.manifest.find(req.url);
 
-    if (!routerHandler) {
+    if (!route) {
       return new Response("Not found", { status: 404 });
     }
 
-    if (httpMethod === "get") {
-      route = routerHandler.get;
-    }
+    const routeHandler =
+      route.handlers[httpMethod as keyof typeof route.handlers];
 
-    if (httpMethod === "post") {
-      route = routerHandler.post;
-    }
-    if (httpMethod === "patch") {
-      route = routerHandler.patch;
-    }
-    if (httpMethod === "delete") {
-      route = routerHandler.delete;
-    }
-
-    if (route) {
-      return await route({
+    if (routeHandler) {
+      return await routeHandler({
         query: new URLSearchParams(req.url),
-        params: null,
+        params: getParams(new URL(req.url).pathname, route.path),
         data: null,
       }, Responder);
     }

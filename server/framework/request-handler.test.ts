@@ -20,7 +20,10 @@ runner.test("Not find a module for the route", async () => {
 runner.test("Find a module for the route and call the get method", async () => {
   const manifest = {
     find: () => ({
-      post: async () => new Response("ok", { status: 202 }),
+      path: "/",
+      handlers: {
+        post: async () => new Response("ok", { status: 202 }),
+      },
     }),
   };
 

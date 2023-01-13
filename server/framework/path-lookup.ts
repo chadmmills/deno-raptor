@@ -18,14 +18,14 @@ export default function pathLookup(
 
     for (let i = 0; i < pathKeyParts.length; i++) {
       const isAtEnd = i === pathKeyParts.length - 1;
-      const isParam = pathKeyParts[i].startsWith(":");
+      const isParam = pathKeyParts[i].startsWith("$");
 
       if (isAtEnd) {
         if (isParam) return pathKey;
         if (pathKeyParts[i] === pathParts[i]) return pathKey;
       }
 
-      if (pathKeyParts[i].startsWith(":")) {
+      if (pathKeyParts[i].startsWith("$")) {
         continue;
       }
 

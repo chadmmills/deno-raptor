@@ -19,5 +19,8 @@ runner.test("Should find a route for the url", () => {
 
   const manifest = new RouterManifest(routeMap);
 
-  assert.equals(manifest.find("http://localhost:3001"), routeMap["/"]);
+  assert.equals(manifest.find("http://localhost:3001"), {
+    path: "/",
+    handlers: routeMap["/"],
+  });
 });

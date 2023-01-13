@@ -5,9 +5,9 @@ import RouterManifest from "./framework/router-manifest.ts";
 import RouterMap from "./framework/router-map.ts";
 import { requestTime } from "./framework/middleware.ts";
 
-import type { TMethodHandler } from "./framework/request-handler.ts";
+import type { THandlerModule } from "./framework/request-handler.ts";
 
-const routerMap = await new RouterMap("./server/routes").load<TMethodHandler>();
+const routerMap = await new RouterMap("./server/routes").load<THandlerModule>();
 
 const handler = new RequestHandler(new RouterManifest(routerMap));
 

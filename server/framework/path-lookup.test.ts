@@ -15,5 +15,5 @@ runner.test("should match a url path with a router path with a trailing slash", 
 });
 
 runner.test("should match a url path with a router path with param", () => {
-  assert.equals(pathLookup("/foo/123", ["/foo/:id"]), "/foo/:id");
+  assert.equals(pathLookup("/foo/123", ["/foo/$id"]), "/foo/$id");
 });

@@ -1,1 +1,6 @@
-{}
+{
+  "tasks": {
+    "test:all": "deno test --allow-read=.",
+    "serve:dev": "export APP_ENV=test && deno run --allow-net --allow-read --allow-hrtime server/index.ts"
+  }
+}
