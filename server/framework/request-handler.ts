@@ -1,11 +1,12 @@
 import getParams from "./get-params.ts";
+import { ORM } from "./db/orm.gen.ts";
 
 const Responder = {
-  json: (data: unknown) => {
+  json: (data: unknown, statusCode = 200) => {
     return new Response(
       JSON.stringify(data),
       {
-        status: 200,
+        status: statusCode,
         headers: {
           "Content-Type": "application/json",
         },
@@ -24,6 +25,7 @@ type TParams = Record<string, string>;
 
 export type THandler = (
   requestData: { query: URLSearchParams; params: TParams; data: null },
+  db: typeof ORM,
   response: typeof Responder,
 ) => THandlerResponse;
 
@@ -55,11 +57,15 @@ export default class RequestHandler {
       route.handlers[httpMethod as keyof typeof route.handlers];
 
     if (routeHandler) {
-      return await routeHandler({
-        query: new URLSearchParams(req.url),
-        params: getParams(new URL(req.url).pathname, route.path),
-        data: null,
-      }, Responder);
+      return await routeHandler(
+        {
+          query: new URLSearchParams(req.url),
+          params: getParams(new URL(req.url).pathname, route.path),
+          data: req.body ? await req.json() : null,
+        },
+        ORM,
+        Responder,
+      );
     }
 
     return new Response("Not found", { status: 404 });
