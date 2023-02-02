@@ -1,6 +1,7 @@
 {
   "tasks": {
-    "test:all": "deno test --allow-read=.",
-    "serve:dev": "export APP_ENV=test && deno run --allow-net --allow-read --allow-hrtime server/index.ts"
+    "test:all": "deno test --allow-read=$PWD,./framework/routes .",
+    "test:all:watch": "deno test --allow-read=$PWD,./framework/routes --watch .",
+    "serve:dev": "export APP_ENV=test && deno run -A --unstable server/index.ts"
   }
 }
